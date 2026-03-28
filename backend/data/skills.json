@@ -1,0 +1,14 @@
+[
+  {
+    "category": "Frontend",
+    "skills": ["React", "TypeScript", "Tailwind CSS", "Framer Motion"]
+  },
+  {
+    "category": "Backend",
+    "skills": ["Node.js", "Express", "PostgreSQL", "MongoDB"]
+  },
+  {
+    "category": "DevOps",
+    "skills": ["AWS", "Docker", "Vercel", "GitHub Actions"]
+  }
+]
