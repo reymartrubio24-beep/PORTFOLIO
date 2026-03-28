@@ -1,4 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronLeft, ChevronRight, X } from 'lucide-react';
 
@@ -37,6 +38,16 @@ const Gallery = () => {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [selectedIdx]);
 
+  // Lock body scroll when lightbox is open
+  useEffect(() => {
+    if (selectedIdx !== -1) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [selectedIdx]);
+
   // Duplicate images for seamless loop
   const duplicatedImages = [...images, ...images];
 
@@ -64,26 +75,26 @@ const Gallery = () => {
           style={{ width: "fit-content" }}
         >
           {duplicatedImages.map((img, idx) => (
-            <motion.div
+            <div
               key={idx}
-              className="min-w-[300px] md:min-w-[400px] aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer hover:grayscale-0 grayscale transition-all duration-500"
-              whileHover={{ scale: 0.98, grayscale: 0 }}
+              className="min-w-[300px] md:min-w-[400px] aspect-[4/3] rounded-2xl overflow-hidden cursor-pointer hover:grayscale-0 grayscale transition-all duration-500 hover:scale-[0.98]"
               onClick={() => setSelectedIdx(idx % images.length)}
             >
-              <img src={img} alt={`Gallery ${idx}`} className="w-full h-full object-cover pointer-events-none" />
-            </motion.div>
+              <img src={img} alt={`Gallery ${idx}`} className="w-full h-full object-cover" draggable={false} />
+            </div>
           ))}
         </motion.div>
       </div>
 
-      {/* --- LIGHTBOX SYSTEM --- */}
-      <AnimatePresence>
-        {selectedIdx !== -1 && (
+      {/* --- LIGHTBOX SYSTEM (Portal to body so it's above everything) --- */}
+      {selectedIdx !== -1 && createPortal(
+        <AnimatePresence>
           <motion.div 
-            className="fixed inset-0 z-[500] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-6"
+            className="fixed inset-0 z-[9999] bg-black/95 backdrop-blur-sm flex flex-col items-center justify-center p-6"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            onClick={() => setSelectedIdx(-1)}
           >
             {/* Top Bar: Counter and Close */}
             <div className="absolute top-0 left-0 right-0 p-8 flex justify-between items-center z-10">
@@ -91,7 +102,7 @@ const Gallery = () => {
                 {selectedIdx + 1} / {images.length}
               </span>
               <button 
-                onClick={() => setSelectedIdx(-1)}
+                onClick={(e) => { e.stopPropagation(); setSelectedIdx(-1); }}
                 className="p-4 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all hover:scale-105 active:scale-95"
               >
                 <X size={24} />
@@ -99,18 +110,18 @@ const Gallery = () => {
             </div>
 
             {/* Main Content Area */}
-            <div className="relative w-full h-full flex items-center justify-center group/lightbox">
+            <div className="relative w-full h-full flex items-center justify-center group/lightbox" onClick={(e) => e.stopPropagation()}>
               {/* Navigation Arrows */}
               <button 
                 onClick={prevImage}
-                className="absolute left-4 p-5 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all hidden md:block"
+                className="absolute left-4 p-5 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all hidden md:block z-20"
               >
                 <ChevronLeft size={32} />
               </button>
 
               <button 
                 onClick={nextImage}
-                className="absolute right-4 p-5 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all hidden md:block"
+                className="absolute right-4 p-5 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all hidden md:block z-20"
               >
                 <ChevronRight size={32} />
               </button>
@@ -130,13 +141,14 @@ const Gallery = () => {
               {/* Bottom Instructions */}
               <div className="absolute bottom-4 left-1/2 -translate-x-1/2">
                 <p className="text-[10px] text-zinc-500 font-bold uppercase tracking-[0.3em] bg-black/50 px-6 py-3 rounded-full border border-white/10">
-                  Use arrow keys to navigate • ESC to close
+                  Use arrow keys to navigate &bull; ESC to close
                 </p>
               </div>
             </div>
           </motion.div>
-        )}
-      </AnimatePresence>
+        </AnimatePresence>,
+        document.body
+      )}
     </section>
   );
 };
