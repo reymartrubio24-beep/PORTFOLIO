@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000;
 // Middleware
 app.use(cors({
   origin: true, // During development, true allows any origin
-  credentials: true
+  credentials: true 
 }));
 app.use(express.json());
 

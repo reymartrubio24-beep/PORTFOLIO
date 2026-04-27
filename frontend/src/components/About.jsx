@@ -12,13 +12,19 @@ const About = () => {
           <h2 className="text-3xl font-bold text-gray-900 dark:text-white mb-6 tracking-tight">About</h2>
           <div className="text-lg text-gray-700 dark:text-zinc-400 font-light leading-relaxed space-y-6">
             <p>
-              I'm a full-stack software engineer specializing in developing solutions with **JavaScript, Python, and PHP**. I work on projects including building modern web applications, mobile apps, search engine optimization, digital marketing, and making code tutorials.
+              I’m an IT student currently building my skills in web development. I work with technologies like HTML, CSS, JavaScript, and PHP, and I’m currently learning React.js to create more dynamic and modern web applications.
             </p>
             <p>
-              I've helped startups and MSMEs grow and streamline their processes through software solutions. I've also built a community of over 200,000 developers sharing knowledge and mentorship.
+              I enjoy developing simple systems, experimenting with new ideas, and improving my coding skills through hands-on practice. Some of my projects include small applications like a voting system and other personal builds that help me understand real-world development.
             </p>
             <p>
-              Lately, I've been diving deeper into the world of artificial intelligence, focusing on integrating AI tools and techniques into modern applications. My work now includes developing AI-powered solutions, creating intelligent applications, and leveraging generative AI to optimize development workflows and deliver cutting-edge technology.
+              Right now, I’m focused on growing as a developer by learning full-stack development, working with databases, and understanding how real systems are designed and built. I’m also interested in exploring AI and modern web technologies in the future.
+            </p>
+            <p>
+              I’m still in the learning stage, but I’m consistent, motivated, and committed to improving every day.
+            </p>
+            <p className="font-bold text-gray-900 dark:text-white pt-4">
+              REY-DEV — Developer in Progress.
             </p>
           </div>
         </div>

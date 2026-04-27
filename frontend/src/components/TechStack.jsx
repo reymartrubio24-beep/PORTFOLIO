@@ -14,7 +14,7 @@ const techCategories = [
   {
     title: "Backend Engineering",
     icon: <Database className="text-purple-500" />,
-    skills: ["Node.js", "Express", "Python", "PostgreSQL", "MongoDB", "Redis", "GraphQL", "Socket.io"]
+    skills: ["Node.js", "Express", "PostgreSQL", "MongoDB", "Redis", "GraphQL", "Socket.io"]
   },
   {
     title: "DevOps & Cloud",

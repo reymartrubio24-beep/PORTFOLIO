@@ -5,7 +5,7 @@ const SEO = ({ title, description, keywords, image }) => {
   return (
     <Helmet>
       <title>{title || 'Rey-Dev. | Full Stack Developer'}</title>
-      <meta name="description" content={description || 'Personal portfolio of Rey-Dev., a software developer specializing in React and Node.js.'} />
+      <meta name="description" content={description || 'Personal portfolio of Rey-Dev., a full stack web developer specializing in React and Node.js.'} />
       <meta name="keywords" content={keywords || 'portfolio, developer, react, nodejs, fullstack'} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />

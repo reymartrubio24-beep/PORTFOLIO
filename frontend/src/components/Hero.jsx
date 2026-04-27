@@ -1,8 +1,6 @@
 import React from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
-import profileLight from '../assets/profile-light.png';
-import profileDark from '../assets/profile-dark.png';
 import { BadgeCheck, Check, MapPin, Calendar, Mail, FileText, ChevronRight, ChevronDown } from 'lucide-react';
 
 const Hero = () => {
@@ -17,12 +15,13 @@ const Hero = () => {
           <AnimatePresence mode="wait">
             <motion.img 
               key={isDark ? 'dark' : 'light'}
-              src={isDark ? profileDark : profileLight} 
+              src={isDark ? '/back.jpg' : '/front.jpg'} 
               alt="Profile" 
-              className="w-full h-full object-cover"
-              initial={{ opacity: 0, scale: 1.1 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
+              className="w-full h-full object-cover object-top"
+              style={{ imageRendering: 'high-quality', objectPosition: 'center top' }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
               transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
             />
           </AnimatePresence>

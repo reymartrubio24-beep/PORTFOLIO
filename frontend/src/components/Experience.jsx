@@ -23,7 +23,7 @@ const experiences = [
   {
     role: "BS Computer Science",
     company: "State University of Tech",
-    year: "2015 - 2019",
+    year: "2024 - 2028",
     desc: "Graduated with honors. Specialized in human-computer interaction and database systems."
   }
 ];
