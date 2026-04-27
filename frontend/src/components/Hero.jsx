@@ -15,7 +15,7 @@ const Hero = () => {
           <AnimatePresence mode="wait">
             <motion.img 
               key={isDark ? 'dark' : 'light'}
-              src={isDark ? '/back.jpg' : '/front.jpg'} 
+              src={isDark ? '/back.jpg' : '/front2.jpg'} 
               alt="Profile" 
               className="w-full h-full object-cover object-top"
               style={{ imageRendering: 'high-quality', objectPosition: 'center top' }}
