@@ -114,16 +114,16 @@ const Gallery = () => {
               {/* Navigation Arrows */}
               <button 
                 onClick={prevImage}
-                className="absolute left-4 p-5 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all hidden md:block z-20"
+                className="absolute left-2 md:left-4 p-3 md:p-5 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all z-20"
               >
-                <ChevronLeft size={32} />
+                <ChevronLeft size={24} className="md:w-8 md:h-8" />
               </button>
 
               <button 
                 onClick={nextImage}
-                className="absolute right-4 p-5 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all hidden md:block z-20"
+                className="absolute right-2 md:right-4 p-3 md:p-5 bg-white/10 hover:bg-white/20 text-white rounded-2xl transition-all z-20"
               >
-                <ChevronRight size={32} />
+                <ChevronRight size={24} className="md:w-8 md:h-8" />
               </button>
 
               {/* Main Image */}
