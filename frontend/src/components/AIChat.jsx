@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { MessageSquare, X, ArrowRight } from 'lucide-react';
 import axios from 'axios';
-import avatarImg from '../assets/profile-light.png';
+const avatarImg = '/back.jpg';
 
 const AIChat = () => {
   const [showChat, setShowChat] = useState(false);
