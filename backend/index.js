@@ -48,6 +48,13 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'Something went wrong on our end.' });
 });
 
-app.listen(PORT, () => {
-  console.log(`🚀 Backend server running on http://localhost:${PORT}`);
-});
+// Export the app for Vercel
+module.exports = app;
+
+// Only listen if not running as a serverless function
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`🚀 Backend server running on http://localhost:${PORT}`);
+  });
+}
+
