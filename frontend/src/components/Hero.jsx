@@ -63,7 +63,7 @@ const Hero = () => {
             </div>
           </div>
 
-          <p className="text-[10px] md:text-2xl text-gray-700 dark:text-zinc-300 font-medium mb-6 md:mb-10 leading-relaxed max-w-2xl opacity-80 md:opacity-100 whitespace-nowrap md:whitespace-normal">
+          <p className="text-xs md:text-2xl text-gray-700 dark:text-zinc-300 font-medium mb-6 md:mb-10 leading-relaxed max-w-2xl">
             AI <span className="text-zinc-400 dark:text-zinc-700 font-extralight mx-1 md:mx-0">|</span> IT Student <span className="text-zinc-400 dark:text-zinc-700 font-extralight mx-1 md:mx-0">|</span> Naa BH tambay
           </p>
 

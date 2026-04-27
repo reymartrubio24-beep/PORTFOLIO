@@ -30,9 +30,9 @@ const About = () => {
         </div>
 
         {/* Right: Access Card */}
-        <div className="w-full md:w-1/3 flex justify-center">
+        <div className="w-full md:w-1/3 flex justify-center mt-12 md:mt-0">
           <motion.div 
-            className="w-[300px] h-[450px] relative bg-gradient-to-br from-zinc-800 to-black rounded-3xl p-8 border border-white/10 shadow-2xl flex flex-col justify-between overflow-hidden group"
+            className="w-[280px] h-[420px] md:w-[300px] md:h-[450px] relative bg-gradient-to-br from-zinc-800 to-black rounded-3xl p-6 md:p-8 border border-white/10 shadow-2xl flex flex-col justify-between overflow-hidden group scale-90 md:scale-100"
             whileHover={{ y: -10 }}
             transition={{ type: "spring", stiffness: 300 }}
           >

@@ -54,20 +54,23 @@ const AIChat = () => {
     <div className="fixed bottom-6 right-6 z-[200]">
       {/* Chat Toggle Button */}
       <motion.button 
-        className="bg-zinc-950 dark:bg-zinc-800 text-white px-7 py-4 rounded-2xl flex items-center gap-4 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.6)] font-extrabold hover:scale-[1.05] active:scale-95 transition-all group"
+        className="bg-zinc-950 dark:bg-zinc-800 text-white px-5 md:px-7 py-3 md:py-4 rounded-2xl flex items-center gap-3 md:gap-4 shadow-[0_15px_40px_-10px_rgba(0,0,0,0.6)] font-extrabold hover:scale-[1.05] active:scale-95 transition-all group"
         onClick={() => setShowChat(!showChat)}
       >
         <div className="relative">
-          <MessageSquare size={20} className="group-hover:rotate-12 transition-transform" />
+          <MessageSquare size={18} className="group-hover:rotate-12 transition-transform" />
           <div className="absolute -top-1 -right-1 w-2.5 h-2.5 bg-blue-500 rounded-full border-2 border-zinc-950 dark:border-zinc-800" />
         </div>
-        <span className="text-sm tracking-tight">Chat with Rey-Dev</span>
+        <span className="text-[10px] md:text-sm tracking-tight">
+          <span className="md:hidden">AI Chat</span>
+          <span className="hidden md:inline">Chat with Rey-Dev</span>
+        </span>
       </motion.button>
 
       <AnimatePresence>
         {showChat && (
           <motion.div 
-            className="absolute bottom-24 right-0 w-[400px] h-[600px] bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-800 shadow-[0_30px_90px_-20px_rgba(0,0,0,0.4)] rounded-[2.5rem] flex flex-col overflow-hidden"
+            className="absolute bottom-20 md:bottom-24 right-0 w-[85vw] sm:w-[400px] h-[70vh] md:h-[600px] bg-white dark:bg-zinc-950 border border-gray-200 dark:border-zinc-800 shadow-[0_30px_90px_-20px_rgba(0,0,0,0.4)] rounded-[2rem] md:rounded-[2.5rem] flex flex-col overflow-hidden"
             initial={{ opacity: 0, y: 40, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 40, scale: 0.9 }}

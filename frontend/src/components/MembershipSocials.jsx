@@ -22,7 +22,7 @@ const MembershipSocials = () => {
       <div className="flex flex-col items-center">
         <h3 className="text-xs font-bold text-gray-400 dark:text-zinc-500 uppercase tracking-[0.2em] mb-12">Social Links</h3>
         
-        <div className="flex flex-wrap justify-center gap-8 md:gap-16">
+        <div className="grid grid-cols-2 md:flex md:flex-wrap justify-center gap-6 md:gap-16 w-full max-w-sm md:max-w-none">
           <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 group">
             <div className="w-12 h-12 rounded-xl bg-gray-50 dark:bg-zinc-900 border border-gray-100 dark:border-zinc-800 flex items-center justify-center group-hover:bg-blue-600 group-hover:text-white transition-all duration-300 shadow-sm group-hover:shadow-blue-500/20">
               <Linkedin size={24} />
