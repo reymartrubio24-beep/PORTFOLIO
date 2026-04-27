@@ -13,7 +13,7 @@ const Home = () => {
   return (
     <div className="bg-white dark:bg-black transition-colors duration-500 min-h-screen">
       <SEO 
-        title="rey-dev.online" 
+        title="Rey-Dev | Portfolio" 
         description="A full-stack Web Developer specializing in JavaScript, Python, and PHP. Community builder and content creator." 
       />
       <Hero />
