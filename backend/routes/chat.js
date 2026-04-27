@@ -2,9 +2,6 @@ const express = require('express');
 const router = express.Router();
 const { GoogleGenerativeAI } = require('@google/generative-ai');
 
-// genAI client initialization
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
 const fs = require('fs');
 const path = require('path');
 
@@ -34,7 +31,10 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    // Load Anne B's specific data
+    // Initialize genAI at request time (not module load) so env vars are available
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
+
+    // Load Rey-Dev's specific data
     const experienceData = getData('experience.json');
     const projectsData = getData('projects.json');
     const certsData = getData('certifications.json');

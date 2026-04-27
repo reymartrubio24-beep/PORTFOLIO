@@ -1,4 +1,4 @@
-require('dotenv').config();
+try { require('dotenv').config(); } catch (e) { /* no .env file in production */ }
 const express = require('express');
 const cors = require('cors');
 const contactRoutes = require('./routes/contact');

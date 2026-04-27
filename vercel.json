@@ -16,11 +16,7 @@
   "rewrites": [
     {
       "source": "/api/(.*)",
-      "destination": "api/index.js"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "/$1"
+      "destination": "/api/index.js"
     },
     {
       "source": "/((?!api/).*)",
