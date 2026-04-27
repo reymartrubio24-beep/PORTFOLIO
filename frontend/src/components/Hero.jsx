@@ -17,8 +17,8 @@ const Hero = () => {
               key={isDark ? 'dark' : 'light'}
               src={isDark ? '/back.jpg' : '/front2.jpg'} 
               alt="Profile" 
-              className="w-full h-full object-cover object-top"
-              style={{ imageRendering: 'high-quality', objectPosition: 'center top' }}
+              className="w-full h-full object-cover"
+              style={{ imageRendering: 'high-quality' }}
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
