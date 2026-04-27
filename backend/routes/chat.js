@@ -95,7 +95,7 @@ router.post('/', async (req, res) => {
     res.json({ text });
   } catch (err) {
     console.error('Chat error:', err);
-    res.status(500).json({ error: 'Failed to generate AI response.' });
+    res.status(500).json({ error: 'Failed to generate AI response.', details: err.message, stack: err.stack });
   }
 });
 
