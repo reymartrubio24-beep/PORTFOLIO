@@ -65,14 +65,17 @@ router.post('/', async (req, res) => {
       4. Always stay in character as Rey-Dev.
     `;
     
+    // Initialize with stable v1 API version
+    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY, { apiVersion: 'v1' });
+
     // 1. Convert frontend roles to Gemini roles
     const allHistory = history.map(item => ({
       role: item.type === 'ai' ? 'model' : 'user',
       parts: [{ text: item.text }]
     }));
 
-    // List of models to try in order of preference
-    const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-pro"];
+    // List of models to try in order of preference (Stable names)
+    const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-pro", "gemini-1.0-pro"];
     let lastError = null;
     let text = "";
 
