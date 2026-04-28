@@ -34,7 +34,7 @@
 
 ### ✨ Key Features
 
-- **🤖 AI Chatbot Integration** — Real-time chat powered by **Google Gemini 2.5 Flash**, conditioned on my professional experience and project data.
+- **🤖 AI Chatbot Integration** — Real-time chat powered by **Google Gemini 1.5 Flash**, conditioned on my professional experience and project data.
 - **✨ Premium UI/UX** — Modern, minimalist aesthetic with glassmorphism effects and high-end typography.
 - **🎬 Dynamic Animations** — Smooth, frame-by-frame entrance and interaction animations using **Framer Motion**.
 - **📊 Modular Architecture** — Decoupled frontend and backend for scalable data management and clean code.
@@ -50,7 +50,7 @@
 | --------- | ---------------------------------------------------------- |
 | Frontend  | [React 19](https://react.dev/) + [Vite 8](https://vitejs.dev/) |
 | Backend   | [Node.js](https://nodejs.org/) + [Express](https://expressjs.com/) |
-| AI Model  | [Google Gemini 2.5 Flash](https://ai.google.dev/)          |
+| AI Model  | [Google Gemini 1.5 Flash](https://ai.google.dev/)          |
 | Styling   | [Tailwind CSS](https://tailwindcss.com/) + [Vanilla CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) |
 | Animations| [Framer Motion](https://www.framer.com/motion/)            |
 

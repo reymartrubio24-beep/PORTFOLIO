@@ -65,10 +65,7 @@ router.post('/', async (req, res) => {
       4. Always stay in character as Rey-Dev.
     `;
     
-    const model = genAI.getGenerativeModel({ 
-      model: "gemini-1.5-flash",
-      systemInstruction: systemPrompt
-    });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
 
     // 1. Convert frontend roles to Gemini roles
     const allHistory = history.map(item => ({
@@ -76,11 +73,24 @@ router.post('/', async (req, res) => {
       parts: [{ text: item.text }]
     }));
 
-    // 2. Ensure history starts with 'user'
-    const firstUserIdx = allHistory.findIndex(h => h.role === 'user');
-    let validHistory = firstUserIdx !== -1 ? allHistory.slice(firstUserIdx) : [];
+    // 2. Prepend the System Prompt as the very first context
+    // This is the most compatible way to give the AI instructions
+    const contextHistory = [
+      {
+        role: "user",
+        parts: [{ text: `INSTRUCTIONS: ${systemPrompt}\n\nPlease acknowledge these instructions and stay in character as Rey-Dev.` }]
+      },
+      {
+        role: "model",
+        parts: [{ text: "Understood. I am Rey-Dev, and I will answer questions concisely and professionally based on my background. How can I help you today? 🚀" }]
+      },
+      ...allHistory
+    ];
 
-    // 3. Ensure history alternates
+    // 3. Ensure history alternates and starts correctly
+    const firstUserIdx = contextHistory.findIndex(h => h.role === 'user');
+    let validHistory = firstUserIdx !== -1 ? contextHistory.slice(firstUserIdx) : [];
+
     let formattedHistory = [];
     let lastRole = null;
     for (const item of validHistory) {
@@ -91,7 +101,7 @@ router.post('/', async (req, res) => {
     }
 
     const chat = model.startChat({
-      history: formattedHistory.slice(-10),
+      history: formattedHistory.slice(-12), // Slightly larger context for instructions
     });
 
     const result = await chat.sendMessage(message);
@@ -99,6 +109,7 @@ router.post('/', async (req, res) => {
     const text = response.text();
     
     res.json({ text });
+
   } catch (err) {
     console.error('Chat API Error:', err);
     res.status(500).json({ 
