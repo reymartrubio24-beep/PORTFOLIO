@@ -65,48 +65,65 @@ router.post('/', async (req, res) => {
       4. Always stay in character as Rey-Dev.
     `;
     
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-
     // 1. Convert frontend roles to Gemini roles
     const allHistory = history.map(item => ({
       role: item.type === 'ai' ? 'model' : 'user',
       parts: [{ text: item.text }]
     }));
 
-    // 2. Prepend the System Prompt as the very first context
-    // This is the most compatible way to give the AI instructions
-    const contextHistory = [
-      {
-        role: "user",
-        parts: [{ text: `INSTRUCTIONS: ${systemPrompt}\n\nPlease acknowledge these instructions and stay in character as Rey-Dev.` }]
-      },
-      {
-        role: "model",
-        parts: [{ text: "Understood. I am Rey-Dev, and I will answer questions concisely and professionally based on my background. How can I help you today? 🚀" }]
-      },
-      ...allHistory
-    ];
+    // List of models to try in order of preference
+    const modelsToTry = ["gemini-1.5-flash", "gemini-1.5-flash-latest", "gemini-pro"];
+    let lastError = null;
+    let text = "";
 
-    // 3. Ensure history alternates and starts correctly
-    const firstUserIdx = contextHistory.findIndex(h => h.role === 'user');
-    let validHistory = firstUserIdx !== -1 ? contextHistory.slice(firstUserIdx) : [];
+    for (const modelName of modelsToTry) {
+      try {
+        const model = genAI.getGenerativeModel({ model: modelName });
 
-    let formattedHistory = [];
-    let lastRole = null;
-    for (const item of validHistory) {
-      if (item.role !== lastRole) {
-        formattedHistory.push(item);
-        lastRole = item.role;
+        // Prepend the System Prompt as the very first context
+        const contextHistory = [
+          {
+            role: "user",
+            parts: [{ text: `INSTRUCTIONS: ${systemPrompt}\n\nPlease acknowledge these instructions and stay in character as Rey-Dev.` }]
+          },
+          {
+            role: "model",
+            parts: [{ text: "Understood. I am Rey-Dev, and I will answer questions concisely and professionally based on my background. How can I help you today? 🚀" }]
+          },
+          ...allHistory
+        ];
+
+        // Ensure history alternates and starts correctly
+        const firstUserIdx = contextHistory.findIndex(h => h.role === 'user');
+        let validHistory = firstUserIdx !== -1 ? contextHistory.slice(firstUserIdx) : [];
+
+        let formattedHistory = [];
+        let lastRole = null;
+        for (const item of validHistory) {
+          if (item.role !== lastRole) {
+            formattedHistory.push(item);
+            lastRole = item.role;
+          }
+        }
+
+        const chat = model.startChat({
+          history: formattedHistory.slice(-12),
+        });
+
+        const result = await chat.sendMessage(message);
+        const response = await result.response;
+        text = response.text();
+        
+        break; // Successfully used a model
+      } catch (err) {
+        console.warn(`Model ${modelName} failed:`, err.message);
+        lastError = err;
       }
     }
 
-    const chat = model.startChat({
-      history: formattedHistory.slice(-12), // Slightly larger context for instructions
-    });
-
-    const result = await chat.sendMessage(message);
-    const response = await result.response;
-    const text = response.text();
+    if (!text && lastError) {
+      throw lastError; // If all models failed, throw the last error
+    }
     
     res.json({ text });
 
