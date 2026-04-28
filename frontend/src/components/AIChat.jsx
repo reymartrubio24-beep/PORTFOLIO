@@ -43,8 +43,17 @@ const AIChat = () => {
       const aiResponse = { type: 'ai', text: res.data.text };
       setChatHistory(prev => [...prev, aiResponse]);
     } catch (err) {
-      console.error('Chat error:', err);
-      setChatHistory(prev => [...prev, { type: 'ai', text: "Sorry, I'm having trouble connecting to my brain right now. Please try again later!" }]);
+      console.error('Chat error details:', {
+        message: err.message,
+        response: err.response?.data,
+        status: err.response?.status
+      });
+      
+      const errorText = err.response?.data?.details 
+        ? `Error: ${err.response.data.details}` 
+        : "Sorry, I'm having trouble connecting to my brain right now. Please try again later!";
+        
+      setChatHistory(prev => [...prev, { type: 'ai', text: errorText }]);
     } finally {
       setIsTyping(false);
     }

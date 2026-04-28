@@ -5,12 +5,18 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const fs = require('fs');
 const path = require('path');
 
-// Helper to read data files
+// Helper to read data files - use process.cwd() for Vercel stability
 const getData = (filename) => {
   try {
-    const filePath = path.join(__dirname, '../data', filename);
-    return fs.readFileSync(filePath, 'utf8');
+    // On Vercel, process.cwd() is the root of the project
+    const filePath = path.join(process.cwd(), 'backend', 'data', filename);
+    if (fs.existsSync(filePath)) {
+      return fs.readFileSync(filePath, 'utf8');
+    }
+    console.warn(`Data file not found at: ${filePath}`);
+    return "Data not available.";
   } catch (err) {
+    console.error(`Error reading ${filename}:`, err);
     return "Data not available.";
   }
 };
@@ -18,28 +24,27 @@ const getData = (filename) => {
 router.post('/', async (req, res) => {
   const { message, history = [] } = req.body;
 
+  // Debug logging for Vercel
   if (process.env.GEMINI_API_KEY) {
-    console.log(`Key found. Ends with: ...${process.env.GEMINI_API_KEY.slice(-4)}`);
+    console.log(`GEMINI_API_KEY found in environment.`);
   } else {
-    console.log('No Gemini API Key found in process.env!');
+    console.log('No GEMINI_API_KEY found in process.env!');
   }
 
-  if (!process.env.GEMINI_API_KEY) {
+  if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'your_actual_gemini_api_key_here') {
     return res.json({ 
-      text: "I'm ready to help, but I need my Gemini API Key! Please add it to the `.env` file in the backend folder to activate my full intelligence. 🚀" 
+      text: "I'm ready to help, but I need a valid Gemini API Key! Please check your Vercel Environment Variables. 🚀" 
     });
   }
 
   try {
-    // Initialize genAI at request time (not module load) so env vars are available
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
-    // Load Rey-Dev's specific data
+    // Load data using the improved helper
     const experienceData = getData('experience.json');
     const projectsData = getData('projects.json');
     const certsData = getData('certifications.json');
 
-    // Enhanced System Prompt with REAL INFO
     const systemPrompt = `
       You are Rey-Dev, a world-class AI & Software Engineer from the Philippines. 
       You are chatting with a visitor on your portfolio website.
@@ -74,7 +79,7 @@ router.post('/', async (req, res) => {
     const firstUserIdx = allHistory.findIndex(h => h.role === 'user');
     let validHistory = firstUserIdx !== -1 ? allHistory.slice(firstUserIdx) : [];
 
-    // 3. Ensure history alternates (skips consecutive same roles)
+    // 3. Ensure history alternates
     let formattedHistory = [];
     let lastRole = null;
     for (const item of validHistory) {
@@ -85,18 +90,23 @@ router.post('/', async (req, res) => {
     }
 
     const chat = model.startChat({
-      history: formattedHistory.slice(-10), // Context window
+      history: formattedHistory.slice(-10),
     });
 
     const result = await chat.sendMessage(message);
     const response = await result.response;
     const text = response.text();
-    console.log(`Generated AI response: ${text.slice(0, 50)}...`);
+    
     res.json({ text });
   } catch (err) {
-    console.error('Chat error:', err);
-    res.status(500).json({ error: 'Failed to generate AI response.', details: err.message, stack: err.stack });
+    console.error('Chat API Error:', err);
+    res.status(500).json({ 
+      error: 'Failed to generate AI response.', 
+      details: err.message,
+      type: err.constructor.name
+    });
   }
 });
 
 module.exports = router;
+
