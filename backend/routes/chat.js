@@ -39,8 +39,6 @@ router.post('/', async (req, res) => {
   }
 
   try {
-    const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-
     // Load data using the improved helper
     const experienceData = getData('experience.json');
     const projectsData = getData('projects.json');
