@@ -25,15 +25,16 @@ router.post('/', async (req, res) => {
   const { message, history = [] } = req.body;
 
   // Debug logging for Vercel
-  if (process.env.GEMINI_API_KEY) {
-    console.log(`GEMINI_API_KEY found in environment.`);
-  } else {
-    console.log('No GEMINI_API_KEY found in process.env!');
-  }
-
-  if (!process.env.GEMINI_API_KEY || process.env.GEMINI_API_KEY === 'your_actual_gemini_api_key_here') {
+  const apiKey = process.env.GEMINI_API_KEY;
+  const hasKey = !!apiKey && apiKey !== 'your_actual_gemini_api_key_here';
+  
+  if (!hasKey) {
+    let diagnostic = "Missing GEMINI_API_KEY.";
+    if (apiKey === 'your_actual_gemini_api_key_here') diagnostic = "You are still using the placeholder 'your_actual_...'";
+    if (apiKey && apiKey.startsWith('GEMINI_API_KEY=')) diagnostic = "Your Vercel value accidentally includes the 'GEMINI_API_KEY=' prefix. Please remove it!";
+    
     return res.json({ 
-      text: "I'm ready to help, but I need a valid Gemini API Key! Please check your Vercel Environment Variables. 🚀" 
+      text: `I'm ready to help, but I need a valid Gemini API Key! 🚀\n\n**Diagnostic:** ${diagnostic}\n\n**How to fix:** Go to Vercel Settings -> Environment Variables and ensure GEMINI_API_KEY is set correctly for 'Production'.` 
     });
   }
 
